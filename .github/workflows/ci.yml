@@ -1,0 +1,18 @@
+name: 冒烟测试CI
+on:
+  push:
+    branches: [ main ]
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 配置JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+      - name: 执行build（打包jar）
+        run: mvn package -DskipTests
+      - name: 执行test（冒烟测试）
+        run: mvn test
